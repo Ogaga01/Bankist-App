@@ -75,4 +75,17 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 containerApp.classList.add('show');
 
+const createUserName = accs => {
+  accs.forEach(acc => {
+     acc.userName = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(acc => 
+         acc[0]
+      )
+      .join('');
+  });
+};
+createUserName(accounts)
+
 
