@@ -106,13 +106,13 @@ const displaySummary = acc => {
     }, 0);
   labelSumIn.textContent = `${incomeSummary}V`;
 
-  const withdrawalSummary = acc.movements
+  const withdrawalSummary = Math.abs(acc.movements
     .filter(move => {
       return move < 0;
     })
     .reduce((acu, move) => {
       return acu + move;
-    }, 0);
+    }, 0))
   labelSumOut.textContent = `${withdrawalSummary}C`;
 
   const interestSummary = acc.movements
@@ -135,7 +135,7 @@ const displayMovements = (acc) => {
   containerMovements.innerHTML = '';
 
   acc.movements.forEach((move, index) => {
-    const moveType = move > 0 ? 'Deposit' : 'withdrawal';
+    const moveType = move > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
     <div class="movements">
@@ -166,7 +166,10 @@ btnLogin.addEventListener('click', e => {
   }
   containerApp.classList.add('show');
   console.log(currentUser);
-  
+  displayBalance(currentUser)
+  displayMovements(currentUser)
+  displaySummary(currentUser)
+  inputLoginUsername.value = inputLoginPin.value = ''
 });
 
 
