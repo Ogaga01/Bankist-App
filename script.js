@@ -218,3 +218,16 @@ btnLoan.addEventListener('click', e => {
   displaySummary(currentUser);
   inputLoanAmount.value = '';
 });
+
+btnClose.addEventListener('click', (e) => {
+  e.preventDefault()
+  const userName = inputCloseUsername.value
+  const pin = inputClosePin.value
+  if (userName === currentUser.userName && Number(pin) === currentUser.pin) {
+    const currentIndex = accounts.findIndex((acc) => {
+      return acc.userName === userName && acc.pin === Number(pin)
+    })
+    accounts.splice(currentIndex, 1)
+  }
+  containerApp.classList.remove('show');
+})
