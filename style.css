@@ -44,7 +44,7 @@ nav {
 }
 
 .login__input {
-  border: none;
+  /* border: none; */
   padding: 0.5rem 2rem;
   font-size: 1.6rem;
   font-family: inherit;
@@ -73,6 +73,15 @@ nav {
   color: inherit;
   cursor: pointer;
   transition: all 0.3s;
+}
+
+.btn--sort {
+  margin-left: auto;
+  border: none;
+  background: none;
+  font-size: 1.3rem;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .login__btn:hover,
@@ -197,15 +206,6 @@ nav {
   color: #f5465d;
 }
 
-.btn--sort {
-  margin-left: auto;
-  border: none;
-  background: none;
-  font-size: 1.3rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-
 /* OPERATIONS */
 .operation {
   border-radius: 1rem;
@@ -243,9 +243,11 @@ h2 {
 .form.form--loan {
   grid-template-columns: 2.5fr 1fr 2.5fr;
 }
+
 .form__label--loan {
   grid-row: 2;
 }
+
 /* End exceptions */
 
 .form__input {
