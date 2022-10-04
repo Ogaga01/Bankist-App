@@ -297,3 +297,7 @@ h2 {
 .timer {
   font-weight: 600;
 }
+
+.show {
+  opacity: 100;
+}
