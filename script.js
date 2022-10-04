@@ -88,4 +88,19 @@ const createUserName = accs => {
 };
 createUserName(accounts)
 
+let currentUser;
 
+btnLogin.addEventListener('click', (e) => {
+  e.preventDefault()
+
+  const userName = inputLoginUsername.value
+  const pin = inputLoginPin.value
+
+  if (userName === '' || pin === '') {
+    console.log('Invalid Credentials')
+  } else {
+    currentUser = accounts.find((acc) => {
+      return acc.userName === userName && acc.pin === Number(pin)
+    })
+  } console.log(currentUser)
+})
