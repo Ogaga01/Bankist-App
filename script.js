@@ -200,3 +200,21 @@ btnTransfer.addEventListener('click', e => {
   inputTransferTo.value = '';
   inputTransferAmount.value = '';
 });
+
+btnLoan.addEventListener('click', e => {
+  e.preventDefault();
+  let amount = Number(inputLoanAmount.value);
+  if (
+    amount > 0 &&
+    currentUser.movements.some(move => {
+      return move * 0.1;
+    })
+  ) {
+    console.log(amount);
+    currentUser.movements.push(amount);
+  }
+  displayBalance(currentUser);
+  displayMovements(currentUser);
+  displaySummary(currentUser);
+  inputLoanAmount.value = '';
+});
