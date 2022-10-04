@@ -71,36 +71,94 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+const moveTest =movements.reduce((acc, move) => {
+  return acc + move
+})
+
+
 /// //////////////////////////////////////////////
 
 containerApp.classList.add('show');
 
 const createUserName = accs => {
   accs.forEach(acc => {
-     acc.userName = acc.owner
+    acc.userName = acc.owner
       .toLowerCase()
       .split(' ')
-      .map(acc => 
-         acc[0]
-      )
+      .map(acc => acc[0])
       .join('');
   });
 };
-createUserName(accounts)
+createUserName(accounts);
+
+const displayBalance = acc => {
+  acc.balance = acc.movements.reduce((acc, move) => {
+    return acc + move;
+  }, 0);
+  labelBalance.textContent = `${acc.balance}€`;
+};
+
+const displaySummary = acc => {
+  const incomeSummary = acc.movements
+    .filter(move => {
+      return move > 0;
+    })
+    .reduce((acu, move) => {
+      return acu + move;
+    }, 0);
+  labelSumIn.textContent = `${incomeSummary}V`;
+
+  const withdrawalSummary = acc.movements
+    .filter(move => {
+      return move < 0;
+    })
+    .reduce((acu, move) => {
+      return acu + move;
+    }, 0);
+  labelSumOut.textContent = `${withdrawalSummary}C`;
+
+  const interestSummary = acc.movements
+    .filter(move => {
+      return move > 0;
+    })
+    .map(move => {
+      return (move * acc.interestRate) / 100;
+    })
+    .filter(move => {
+      return move > 1;
+    })
+    .reduce((acc, move) => {
+      return acc + move;
+    }, 0);
+  labelSumInterest.textContent = `${interestSummary}€`;
+};
+
+const displayMovements = (acc) => {
+  acc.movements.forEach((move) => {
+    const moveType = move > 0 ? 'Deposit' : 'withdrawal';
+
+    `
+    
+    `
+  })
+}
 
 let currentUser;
 
-btnLogin.addEventListener('click', (e) => {
-  e.preventDefault()
+btnLogin.addEventListener('click', e => {
+  e.preventDefault();
 
-  const userName = inputLoginUsername.value
-  const pin = inputLoginPin.value
+  const userName = inputLoginUsername.value;
+  const pin = inputLoginPin.value;
 
   if (userName === '' || pin === '') {
-    console.log('Invalid Credentials')
+    console.log('Invalid Credentials');
   } else {
-    currentUser = accounts.find((acc) => {
-      return acc.userName === userName && acc.pin === Number(pin)
-    })
-  } console.log(currentUser)
-})
+    currentUser = accounts.find(acc => {
+      return acc.userName === userName && acc.pin === Number(pin);
+    });
+  }
+  console.log(currentUser);
+});
+
+
