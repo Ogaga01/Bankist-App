@@ -49,7 +49,7 @@ const btnLogin = document.querySelector('.login__btn');
 const btnTransfer = document.querySelector('.form__btn--transfer');
 const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
-const btnSort = document.querySelector('.btn--sort');
+// const btnSort = document.querySelector('.btn--sort');
 
 const inputLoginUsername = document.querySelector('.login__input--user');
 const inputLoginPin = document.querySelector('.login__input--pin');
@@ -71,69 +71,48 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-const moveTest =movements.reduce((acc, move) => {
-  return acc + move
-})
-
+// const moveTest = movements.reduce((acc, move) => acc + move);
 
 /// //////////////////////////////////////////////
 
-const createUserName = accs => {
-  accs.forEach(acc => {
+const createUserName = (accs) => {
+  accs.forEach((acc) => {
     acc.userName = acc.owner
       .toLowerCase()
       .split(' ')
-      .map(acc => acc[0])
+      .map((acc) => acc[0])
       .join('');
   });
 };
 createUserName(accounts);
 
-const displayBalance = acc => {
-  acc.balance = acc.movements.reduce((acc, move) => {
-    return acc + move;
-  }, 0);
+const displayBalance = (acc) => {
+  acc.balance = acc.movements.reduce((acc, move) => acc + move, 0);
   labelBalance.textContent = `${acc.balance}€`;
 };
 
-const displaySummary = acc => {
+const displaySummary = (acc) => {
   const incomeSummary = acc.movements
-    .filter(move => {
-      return move > 0;
-    })
-    .reduce((acu, move) => {
-      return acu + move;
-    }, 0);
+    .filter((move) => move > 0)
+    .reduce((acu, move) => acu + move, 0);
   labelSumIn.textContent = `${incomeSummary}€`;
 
   const withdrawalSummary = Math.abs(
     acc.movements
-      .filter(move => {
-        return move < 0;
-      })
-      .reduce((acu, move) => {
-        return acu + move;
-      }, 0)
+      .filter((move) => move < 0)
+      .reduce((acu, move) => acu + move, 0),
   );
   labelSumOut.textContent = `${withdrawalSummary}€`;
 
   const interestSummary = acc.movements
-    .filter(move => {
-      return move > 0;
-    })
-    .map(move => {
-      return (move * acc.interestRate) / 100;
-    })
-    .filter(move => {
-      return move > 1;
-    })
-    .reduce((acc, move) => {
-      return acc + move;
-    }, 0);
+    .filter((move) => move > 0)
+    .map((move) => (move * acc.interestRate) / 100)
+    .filter((move) => move > 1)
+    .reduce((acc, move) => acc + move, 0);
   labelSumInterest.textContent = `${interestSummary}€`;
 };
 
-const displayMovements = acc => {
+const displayMovements = (acc) => {
   containerMovements.innerHTML = '';
 
   acc.movements.forEach((move, index) => {
@@ -143,8 +122,8 @@ const displayMovements = acc => {
     <div class="movements">
         <div class="movements__row">
           <div class="movements__type movements__type--${moveType}">${
-      index + 1
-    } ${moveType}</div>
+  index + 1
+} ${moveType}</div>
           <div class="movements__date">3 days ago</div>
           <div class="movements__value">${move}€</div>
         </div>
@@ -155,7 +134,7 @@ const displayMovements = acc => {
 
 let currentUser;
 
-btnLogin.addEventListener('click', e => {
+btnLogin.addEventListener('click', (e) => {
   e.preventDefault();
 
   const userName = inputLoginUsername.value;
@@ -164,32 +143,28 @@ btnLogin.addEventListener('click', e => {
   if (userName === '' || pin === '') {
     console.log('Invalid Credentials');
   } else {
-    currentUser = accounts.find(acc => {
-      return acc.userName === userName && acc.pin === Number(pin);
-    });
+    currentUser = accounts.find((acc) => acc.userName === userName && acc.pin === Number(pin));
   }
   containerApp.classList.add('show');
-  console.log(currentUser);
   displayBalance(currentUser);
   displayMovements(currentUser);
   displaySummary(currentUser);
-  inputLoginUsername.value = inputLoginPin.value = '';
+  inputLoginUsername.value = '';
+  inputLoginPin.value = '';
 });
 
-btnTransfer.addEventListener('click', e => {
+btnTransfer.addEventListener('click', (e) => {
   e.preventDefault();
-  const recipeint = accounts.find(acc => {
-    return acc.userName === inputTransferTo.value;
-  });
+  const recipeint = accounts.find((acc) => acc.userName === inputTransferTo.value);
   const amount = inputTransferAmount.value;
 
   if (inputTransferTo.value === '' || Number(amount) === '') {
     console.log('invalid credentials');
   } else if (
-    amount > 0 &&
-    currentUser.balance > amount &&
-    recipeint &&
-    recipeint.userName !== currentUser.userName
+    amount > 0
+    && currentUser.balance > amount
+    && recipeint
+    && recipeint.userName !== currentUser.userName
   ) {
     currentUser.movements.push(-Number(amount));
     recipeint.movements.push(Number(amount));
@@ -201,16 +176,13 @@ btnTransfer.addEventListener('click', e => {
   inputTransferAmount.value = '';
 });
 
-btnLoan.addEventListener('click', e => {
+btnLoan.addEventListener('click', (e) => {
   e.preventDefault();
-  let amount = Number(inputLoanAmount.value);
+  const amount = Number(inputLoanAmount.value);
   if (
-    amount > 0 &&
-    currentUser.movements.some(move => {
-      return move * 0.1;
-    })
+    amount > 0
+    && currentUser.movements.some((move) => move * 0.1)
   ) {
-    console.log(amount);
     currentUser.movements.push(amount);
   }
   displayBalance(currentUser);
@@ -220,14 +192,14 @@ btnLoan.addEventListener('click', e => {
 });
 
 btnClose.addEventListener('click', (e) => {
-  e.preventDefault()
-  const userName = inputCloseUsername.value
-  const pin = inputClosePin.value
+  e.preventDefault();
+  const userName = inputCloseUsername.value;
+  const pin = inputClosePin.value;
   if (userName === currentUser.userName && Number(pin) === currentUser.pin) {
-    const currentIndex = accounts.findIndex((acc) => {
-      return acc.userName === userName && acc.pin === Number(pin)
-    })
-    accounts.splice(currentIndex, 1)
+    const currentIndex = accounts.findIndex(
+      (acc) => acc.userName === userName && acc.pin === Number(pin),
+    );
+    accounts.splice(currentIndex, 1);
   }
   containerApp.classList.remove('show');
-})
+});
