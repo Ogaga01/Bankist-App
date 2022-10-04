@@ -35,12 +35,12 @@ const accounts = [account1, account2, account3, account4];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
-const labelDate = document.querySelector('.date');
+// const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
 const labelSumIn = document.querySelector('.summary__value--in');
 const labelSumOut = document.querySelector('.summary__value--out');
 const labelSumInterest = document.querySelector('.summary__value--interest');
-const labelTimer = document.querySelector('.timer');
+// const labelTimer = document.querySelector('.timer');
 
 const containerApp = document.querySelector('.app');
 const containerMovements = document.querySelector('.movements');
@@ -63,15 +63,15 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /// //////////////////////////////////////////////
 // LECTURES
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// const moveTest = movements.reduce((acc, move) => acc + move);
+// // const moveTest = movements.reduce((acc, move) => acc + move);
 
 /// //////////////////////////////////////////////
 
@@ -145,6 +145,7 @@ btnLogin.addEventListener('click', (e) => {
   } else {
     currentUser = accounts.find((acc) => acc.userName === userName && acc.pin === Number(pin));
   }
+  labelWelcome.textContent = `Welcome User ${currentUser.owner.split(' ')[0]}`;
   containerApp.classList.add('show');
   displayBalance(currentUser);
   displayMovements(currentUser);
