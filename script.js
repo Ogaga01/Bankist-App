@@ -78,8 +78,6 @@ const moveTest =movements.reduce((acc, move) => {
 
 /// //////////////////////////////////////////////
 
-containerApp.classList.add('show');
-
 const createUserName = accs => {
   accs.forEach(acc => {
     acc.userName = acc.owner
@@ -134,12 +132,20 @@ const displaySummary = acc => {
 };
 
 const displayMovements = (acc) => {
-  acc.movements.forEach((move) => {
+  containerMovements.innerHTML = '';
+
+  acc.movements.forEach((move, index) => {
     const moveType = move > 0 ? 'Deposit' : 'withdrawal';
 
-    `
-    
-    `
+    const html = `
+    <div class="movements">
+        <div class="movements__row">
+          <div class="movements__type movements__type--${moveType}">${index + 1} ${moveType}</div>
+          <div class="movements__date">3 days ago</div>
+          <div class="movements__value">${move}€</div>
+        </div>
+    `;
+    containerMovements.insertAdjacentHTML('afterbegin', html)
   })
 }
 
@@ -158,7 +164,9 @@ btnLogin.addEventListener('click', e => {
       return acc.userName === userName && acc.pin === Number(pin);
     });
   }
+  containerApp.classList.add('show');
   console.log(currentUser);
+  
 });
 
 
