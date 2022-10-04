@@ -104,16 +104,18 @@ const displaySummary = acc => {
     .reduce((acu, move) => {
       return acu + move;
     }, 0);
-  labelSumIn.textContent = `${incomeSummary}V`;
+  labelSumIn.textContent = `${incomeSummary}€`;
 
-  const withdrawalSummary = Math.abs(acc.movements
-    .filter(move => {
-      return move < 0;
-    })
-    .reduce((acu, move) => {
-      return acu + move;
-    }, 0))
-  labelSumOut.textContent = `${withdrawalSummary}C`;
+  const withdrawalSummary = Math.abs(
+    acc.movements
+      .filter(move => {
+        return move < 0;
+      })
+      .reduce((acu, move) => {
+        return acu + move;
+      }, 0)
+  );
+  labelSumOut.textContent = `${withdrawalSummary}€`;
 
   const interestSummary = acc.movements
     .filter(move => {
@@ -131,7 +133,7 @@ const displaySummary = acc => {
   labelSumInterest.textContent = `${interestSummary}€`;
 };
 
-const displayMovements = (acc) => {
+const displayMovements = acc => {
   containerMovements.innerHTML = '';
 
   acc.movements.forEach((move, index) => {
@@ -140,14 +142,16 @@ const displayMovements = (acc) => {
     const html = `
     <div class="movements">
         <div class="movements__row">
-          <div class="movements__type movements__type--${moveType}">${index + 1} ${moveType}</div>
+          <div class="movements__type movements__type--${moveType}">${
+      index + 1
+    } ${moveType}</div>
           <div class="movements__date">3 days ago</div>
           <div class="movements__value">${move}€</div>
         </div>
     `;
-    containerMovements.insertAdjacentHTML('afterbegin', html)
-  })
-}
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
 
 let currentUser;
 
@@ -166,10 +170,33 @@ btnLogin.addEventListener('click', e => {
   }
   containerApp.classList.add('show');
   console.log(currentUser);
-  displayBalance(currentUser)
-  displayMovements(currentUser)
-  displaySummary(currentUser)
-  inputLoginUsername.value = inputLoginPin.value = ''
+  displayBalance(currentUser);
+  displayMovements(currentUser);
+  displaySummary(currentUser);
+  inputLoginUsername.value = inputLoginPin.value = '';
 });
 
+btnTransfer.addEventListener('click', e => {
+  e.preventDefault();
+  const recipeint = accounts.find(acc => {
+    return acc.userName === inputTransferTo.value;
+  });
+  const amount = inputTransferAmount.value;
 
+  if (inputTransferTo.value === '' || Number(amount) === '') {
+    console.log('invalid credentials');
+  } else if (
+    amount > 0 &&
+    currentUser.balance > amount &&
+    recipeint &&
+    recipeint.userName !== currentUser.userName
+  ) {
+    currentUser.movements.push(-Number(amount));
+    recipeint.movements.push(Number(amount));
+  }
+  displayBalance(currentUser);
+  displayMovements(currentUser);
+  displaySummary(currentUser);
+  inputTransferTo.value = '';
+  inputTransferAmount.value = '';
+});
