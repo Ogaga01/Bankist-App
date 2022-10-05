@@ -35,7 +35,7 @@ const accounts = [account1, account2, account3, account4];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
-// const labelDate = document.querySelector('.date');
+const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
 const labelSumIn = document.querySelector('.summary__value--in');
 const labelSumOut = document.querySelector('.summary__value--out');
@@ -74,6 +74,13 @@ const inputClosePin = document.querySelector('.form__input--pin');
 // // const moveTest = movements.reduce((acc, move) => acc + move);
 
 /// //////////////////////////////////////////////
+
+const now = new Date();
+const day = `${now.getDate()}`.padStart(2, 0);
+const month = `${now.getMonth() + 1}`.padStart(2, 0);
+const year = now.getFullYear();
+const hour = now.getHours();
+const minutes = `${now.getMinutes()}`.padStart(2, 0);
 
 const createUserName = (accs) => {
   accs.forEach((acc) => {
@@ -145,6 +152,7 @@ btnLogin.addEventListener('click', (e) => {
   } else {
     currentUser = accounts.find((acc) => acc.userName === userName && acc.pin === Number(pin));
   }
+  labelDate.textContent = `${day}/${month}/${year} ${hour}:${minutes}`;
   labelWelcome.textContent = `Welcome User ${currentUser.owner.split(' ')[0]}`;
   containerApp.classList.add('show');
   displayBalance(currentUser);
