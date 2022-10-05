@@ -18,7 +18,7 @@ Login and perform Transactions with the following Details:
 
 ## Live Demo
 
-[Live Demo Link](https://ogaga01.github.io/Guess-The-Number-Game/)
+[Live Demo Link](https://https://ogaga01.github.io/Bankist-App/)
 
 
 ## Getting Started
